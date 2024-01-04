@@ -2,27 +2,22 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: {
-    contacts: [],
-  },
+  initialState: { contacts: [] },
   reducers: {
-    addContact: {
-      reducer: (state, action) => {
-        return { ...state, contacts: action.payload }
-      },
+    addContacts: (state, action) => {
+      return { ...state, contacts: action.payload };
     },
-    deleteContact: (state, action)  => {
-     return {
-    ...state, contacts: state.contacts.filter(el => el.id !==action.payload)
-    }
+    deleteContacts: (state, action) => {
+      return {
+        ...state,
+        contacts: state.contacts.filter(el => el.id !== action.payload),
+      };
     },
   },
 });
 
-export const { addContact, deleteContact } = contactsSlice.actions;
-export const contactsReducer = contactsSlice.reducer;
-
-
+export const { addContacts, deleteContacts } = contactsSlice.actions;
+export const contactReducer = contactsSlice.reducer;
 
 // import { createSlice, nanoid } from '@reduxjs/toolkit';
 
