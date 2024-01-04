@@ -1,14 +1,9 @@
-// import { useEffect, useState } from 'react';
-// import { nanoid } from 'nanoid';
 
 import { Section } from './Section/Section';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactsTitle } from './ContactsTitle/ContactsTitle';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
-
-
-//add contacts from redux
 
 export const App = () => {
 

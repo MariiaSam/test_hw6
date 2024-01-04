@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Formik, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,7 +30,7 @@ export const ContactForm = () => {
     );
 
     if (isDuplicate) {
-      alert('Phonebook already has this values');
+      alert('Phonebook already has this value');
       return;
     }
 
@@ -64,7 +63,6 @@ export const ContactForm = () => {
             type="text"
             name="name"
             placeholder=" "
-            onChange={(e) => e.preventDefault()}
           />
           <ErrorMessage name="name" component={Message} />
         </div>
@@ -75,7 +73,6 @@ export const ContactForm = () => {
             type="text"
             name="number"
             placeholder=" "
-            onChange={(e) => e.preventDefault()}
           />
           <ErrorMessage name="number" component={Message} />
         </div>
@@ -85,9 +82,7 @@ export const ContactForm = () => {
   );
 };
 
-ContactForm.propTypes = {
-  onAddContact: PropTypes.func.isRequired,
-};
+
 
 
 // export const ContactForm = ({ onAddContact }) => {

@@ -7,12 +7,14 @@ const contactsSlice = createSlice({
   },
   reducers: {
     addContact: {
-      reducer: (state, { payload }) => {
-        return [...state, payload];
+      reducer: (state, action) => {
+        return { ...state, contacts: action.payload }
       },
     },
-    deleteContact: (state, { payload }) => {
-      return state.filter(({ id }) => id !== payload);
+    deleteContact: (state, action)  => {
+     return {
+    ...state, contacts: state.contacts.filter(el => el.id !==action.payload)
+    }
     },
   },
 });
