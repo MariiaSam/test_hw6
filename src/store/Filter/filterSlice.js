@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const filterSlice = createSlice ({
     name: 'filter', 
-    initialState: { cotacts: ''},
+    initialState: { contacts: ''},
     reducers: {
         setFilter: (state, action) => {
             return {...state, filter: action.payload }

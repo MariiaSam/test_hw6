@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types';
-import { Formik } from 'formik';
+import { Formik, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
-
-import {
-  FormStyled,
-  FieldStyled,
-  Message,
-  Label,
-  Button,
-} from './ContactForm.styled';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectContacts } from 'store/Contacts/contactsSelector';
+import { nanoid } from '@reduxjs/toolkit';
+import { addContact } from 'store/Contacts/contactsSlice';
+import { FormStyled, FieldStyled, Message, Label, Button } from './ContactForm.styled';
 
 const schema = object().shape({
   name: string()
@@ -24,7 +21,29 @@ const schema = object().shape({
     .required('This field is required'),
 });
 
-export const ContactForm = ({ onAddContact }) => {
+export const ContactForm = () => {
+  const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
+
+  const addNewContact = ({ name, number }) => {
+    const isDuplicate = contacts.some(
+      (contact) => contact.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (isDuplicate) {
+      alert('Phonebook already has this values');
+      return;
+    }
+
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+
+    dispatch(addContact(newContact));
+  };
+
   return (
     <Formik
       initialValues={{
@@ -33,22 +52,32 @@ export const ContactForm = ({ onAddContact }) => {
       }}
       validationSchema={schema}
       onSubmit={(values, { resetForm }) => {
-        onAddContact({...values});
+        addNewContact(values);
         resetForm();
       }}
     >
       <FormStyled>
         <div>
           <Label htmlFor="name">Please, enter name</Label>
-
-          <FieldStyled type="text" name="name" placeholder=" " />
-          <Message name="name" component="div"></Message>
+          <Field
+            as={FieldStyled}
+            type="text"
+            name="name"
+            placeholder=" "
+            onChange={(e) => e.preventDefault()}
+          />
+          <ErrorMessage name="name" component={Message} />
         </div>
         <div>
-          <Label htmlFor="name">Please, enter number</Label>
-
-          <FieldStyled type="text" name="number" placeholder=" " />
-          <Message name="number" component="div"></Message>
+          <Label htmlFor="number">Please, enter number</Label>
+          <Field
+            as={FieldStyled}
+            type="text"
+            name="number"
+            placeholder=" "
+            onChange={(e) => e.preventDefault()}
+          />
+          <ErrorMessage name="number" component={Message} />
         </div>
         <Button type="submit">Add contact</Button>
       </FormStyled>
@@ -59,3 +88,36 @@ export const ContactForm = ({ onAddContact }) => {
 ContactForm.propTypes = {
   onAddContact: PropTypes.func.isRequired,
 };
+
+
+// export const ContactForm = ({ onAddContact }) => {
+//     return (
+//       <Formik
+//         initialValues={{
+//           name: '',
+//           number: '',
+//         }}
+//         validationSchema={schema}
+//         onSubmit={(values, { resetForm }) => {
+//           onAddContact({...values});
+//           resetForm();
+//         }}
+//       >
+//         <FormStyled>
+//           <div>
+//             <Label htmlFor="name">Please, enter name</Label>
+  
+//             <FieldStyled type="text" name="name" placeholder=" " />
+//             <Message name="name" component="div"></Message>
+//           </div>
+//           <div>
+//             <Label htmlFor="name">Please, enter number</Label>
+  
+//             <FieldStyled type="text" name="number" placeholder=" " />
+//             <Message name="number" component="div"></Message>
+//           </div>
+//           <Button type="submit">Add contact</Button>
+//         </FormStyled>
+//       </Formik>
+//     );
+//   };
